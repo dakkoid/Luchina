@@ -140,6 +140,13 @@ section.sec + section.sec { border-top: 1px solid var(--line); }
 .ad figure img { display: block; width: 100%; height: auto; border-radius: 6px; box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 120px rgba(242,166,90,.08); }
 .ad figure figcaption { font: 500 13px/1.4 var(--sans); color: var(--muted); margin-top: 12px; text-align: center; }
 
+/* film */
+.film { display: grid; gap: 28px; align-items: center; }
+.film video { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; border-radius: 18px; background: var(--bg-2); border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0,0,0,.55); }
+.film .who { display: flex; gap: 14px; align-items: center; margin-top: 22px; color: var(--muted); font-size: 15px; }
+.film .who b { color: var(--fg); font-weight: 600; }
+@media (min-width: 760px) { .film { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 64px; } .film .vid { order: 2; } }
+
 /* evening timeline */
 .evening .intro-txt { max-width: 560px; }
 .timeline { list-style: none; margin: 46px 0 0; padding: 0; position: relative; display: grid; gap: 18px; }
@@ -216,7 +223,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: 
 <body>
 <header class="top">
   <a class="brand" href="#top">Лучина</a>
-  <nav aria-label="Разделы"><a class="opt" href="#try">Попробовать</a><a href="#ad">О светильнике</a><a href="#evening">Вечер</a><a class="opt" href="#materials">Материалы</a></nav>
+  <nav aria-label="Разделы"><a class="opt" href="#try">Попробовать</a><a href="#ad">О светильнике</a><a class="opt" href="#film">Ролик</a><a href="#evening">Вечер</a><a class="opt" href="#materials">Материалы</a></nav>
 </header>
 
 <main id="top">
@@ -300,6 +307,18 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: 
         <img src="img/poster.jpg" alt="Рекламный постер: «Лучина. Тепло огня. Без огня.» Было — лучина в светце, стало — светильник «Лучина». Функции: догорает, как лучина; задуй — и погаснет; живой огонь без огня." width="1086" height="1536" loading="lazy">
         <figcaption>Рекламный постер</figcaption>
       </figure>
+    </div>
+  </section>
+
+  <section class="sec" id="film" aria-labelledby="film-h">
+    <div class="wrap film">
+      <div class="vid"><video src="video.mp4" poster="img/cover.jpg" controls playsinline preload="metadata" aria-label="Рекламный ролик «Лучина», 30 секунд, рассказывает персонаж Лучинка"></video></div>
+      <div>
+        <p class="kicker">Ролик</p>
+        <h2 id="film-h">Лучинка расскажет</h2>
+        <p class="lead">Тридцать секунд о том, как лучина стала светильником.</p>
+        <p class="who"><span>Ведущая — <b>Лучинка</b>, маленькая дубовая планка с тёплым огоньком. Включите звук.</span></p>
+      </div>
     </div>
   </section>
 
