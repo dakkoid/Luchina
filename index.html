@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лучина — тепло огня без огня</title>
+<meta name="description" content="Светильник-ночник «Лучина»: дубовая планка, которая светится изнутри. Догорает, как лучина, гаснет, если задуть.">
+<meta property="og:title" content="Лучина — тепло огня без огня">
+<meta property="og:description" content="Светильник-ночник: догорает, как лучина, гаснет, если задуть.">
+<meta property="og:image" content="img/poster.jpg">
+<meta name="theme-color" content="#0B0907">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='14' y='9' width='4' height='17' fill='%23C9A06B'/%3E%3Crect x='14' y='4' width='4' height='6' fill='%23FFB868'/%3E%3Cellipse cx='16' cy='27' rx='8' ry='3' fill='%238A867E'/%3E%3C/svg%3E">
+<style>
+@font-face{font-family:"Cormorant";font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Cormorant";font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"Cormorant";font-weight:600;font-display:swap;src:url(fonts/cormorant-garamond-cyrillic-600-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Cormorant";font-weight:600;font-display:swap;src:url(fonts/cormorant-garamond-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"Cormorant";font-style:italic;font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-cyrillic-500-italic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Cormorant";font-style:italic;font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-latin-500-italic.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"Manrope";font-weight:400;font-display:swap;src:url(fonts/manrope-cyrillic-400-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Manrope";font-weight:400;font-display:swap;src:url(fonts/manrope-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"Manrope";font-weight:500;font-display:swap;src:url(fonts/manrope-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Manrope";font-weight:500;font-display:swap;src:url(fonts/manrope-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"Manrope";font-weight:600;font-display:swap;src:url(fonts/manrope-cyrillic-600-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Manrope";font-weight:600;font-display:swap;src:url(fonts/manrope-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+
+/* The page is one evening: it starts in darkness, the visitor lights the lamp, the story is told over a
+   sticky 3D scene, then the ad, the evening timeline, the materials and a good-night ending.
+   Warm and serif, like the poster: Cormorant for display, Manrope for reading. */
+:root {
+  --bg: #0B0907;
+  --bg-2: #15110D;
+  --bg-3: #1E1813;
+  --line: #2C241C;
+  --fg: #F3E9DA;
+  --muted: #B5A690;
+  --ember: #F2A65A;
+  --ember-hi: #FFC98A;
+  --moss: #8D9663;
+  --serif: "Cormorant", "Cormorant Garamond", Georgia, serif;
+  --sans: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --glow: 0;                         /* 0..1, set from the scene: how much light is in the room */
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { margin: 0; color: var(--fg); font: 400 16px/1.6 var(--sans); background: var(--bg); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
+.kicker { font: 600 12px/1 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: var(--ember); margin: 0; }
+h2 { font: 500 clamp(40px, 9vw, 76px)/1 var(--serif); letter-spacing: -.01em; margin: 14px 0 0; }
+h3 { font: 600 clamp(24px, 5.6vw, 30px)/1.15 var(--serif); margin: 0; }
+.lead { font: 500 italic clamp(20px, 4.6vw, 26px)/1.35 var(--serif); color: var(--fg); margin: 16px 0 0; max-width: 34ch; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+
+/* top bar: barely there until the lamp is lit */
+.top { position: fixed; inset: 0 0 auto 0; z-index: 20; display: flex; justify-content: space-between; align-items: center;
+  padding: 14px max(18px, env(safe-area-inset-right, 0px)) 14px max(18px, env(safe-area-inset-left, 0px));
+  opacity: calc(.25 + .75 * var(--glow)); transition: opacity .6s; pointer-events: none; }
+.top a { pointer-events: auto; text-decoration: none; }
+.brand { font: 600 24px/1 var(--serif); letter-spacing: .02em; }
+.top nav { display: flex; gap: 20px; font: 500 13px/1 var(--sans); color: var(--muted); }
+.top nav a { padding: 10px 0; }
+.top nav a:hover { color: var(--fg); }
+@media (max-width: 560px) { .top nav a.opt { display: none; } }
+
+/* ---------- story over a sticky scene */
+.story { position: relative; }
+.stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #050404; }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
+.stage .fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; opacity: .9; }
+.stage.no-webgl .fallback { display: block; }
+.stage::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(5,4,4,.55), rgba(5,4,4,0) 22%, rgba(5,4,4,0) 62%, rgba(5,4,4,.7)); }
+.steps { position: relative; margin-top: -100vh; margin-top: -100svh; z-index: 2; pointer-events: none; }
+.step { min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; padding: 0 0 max(28px, env(safe-area-inset-bottom, 0px)); }
+.step .card { pointer-events: auto; width: min(460px, 100%); padding: 22px 22px 24px; border-radius: 22px;
+  background: rgba(14, 11, 8, .72); border: 1px solid rgba(242, 166, 90, .18); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.step .card p + p { margin-top: 10px; }
+.step .card .muted { font-size: 15px; }
+
+/* step 0: darkness */
+.step.intro { align-items: flex-end; justify-content: center; text-align: center; padding-bottom: max(9vh, 28px); }
+.intro .hello { pointer-events: none; display: grid; gap: 18px; justify-items: center; transition: opacity .8s, transform .8s; }
+.intro .hello .btn { pointer-events: auto; }
+.intro .hint { text-shadow: 0 2px 18px #000; font: 500 italic clamp(24px, 5vw, 34px)/1.25 var(--serif); color: var(--fg); max-width: 18ch; margin: 0; }
+.intro .hint small { display: block; font: 500 14px/1.5 var(--sans); font-style: normal; color: var(--muted); margin-top: 10px; letter-spacing: .02em; }
+.strike-demo { width: 4px; height: 70px; border-radius: 2px; background: linear-gradient(180deg, var(--ember-hi), rgba(242,166,90,0)); animation: strike 2.2s ease-in-out infinite; }
+@keyframes strike { 0% { transform: translateY(26px); opacity: 0; } 30% { opacity: 1; } 70% { transform: translateY(-26px); opacity: 1; } 100% { transform: translateY(-34px); opacity: 0; } }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px;
+  border: 1px solid rgba(242, 166, 90, .55); background: rgba(242, 166, 90, .12); color: var(--fg); font: 600 15px/1 var(--sans); cursor: pointer; text-decoration: none;
+  transition: background-color .2s, border-color .2s; }
+.btn:hover { background: rgba(242, 166, 90, .22); border-color: var(--ember); }
+.btn.solid { background: var(--ember); color: #1B1108; border-color: var(--ember); }
+.btn.solid:hover { background: var(--ember-hi); }
+.btn[aria-pressed="true"] { background: var(--ember); color: #1B1108; border-color: var(--ember); }
+.lit-title { position: absolute; left: 18px; right: 18px; bottom: 15vh; text-align: center; pointer-events: none; opacity: 0; transform: translateY(14px); transition: opacity 1.2s, transform 1.2s; }
+.lit-title h1 { font: 500 clamp(64px, 16vw, 148px)/.9 var(--serif); margin: 10px 0 0; letter-spacing: -.01em; text-shadow: 0 0 40px rgba(0,0,0,.6); }
+.lit-title p { font: 500 italic clamp(20px, 4.4vw, 30px)/1.3 var(--serif); margin: 14px 0 0; }
+body.lit:not([data-step]) .lit-title, body.lit[data-step="dark"] .lit-title { opacity: 1; transform: none; }
+body.lit .intro .hello { opacity: 0; transform: translateY(10px); pointer-events: none; }
+.scroll-cue { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); font: 500 13px/1 var(--sans); color: var(--muted); opacity: 0; transition: opacity 1s .6s; display: grid; justify-items: center; gap: 8px; }
+.scroll-cue::after { content: ""; width: 1px; height: 34px; background: linear-gradient(var(--ember), transparent); }
+body.lit:not([data-step]) .scroll-cue, body.lit[data-step="dark"] .scroll-cue { opacity: 1; }
+
+/* step 3: controls */
+.controls { display: grid; gap: 10px; margin-top: 16px; }
+.controls .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.controls .btn { min-height: 46px; padding: 0 12px; font-size: 14px; }
+.range { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; font: 500 13px/1 var(--sans); color: var(--muted); padding: 6px 2px 0; }
+.range input { width: 100%; accent-color: var(--ember); height: 28px; }
+.status { font: 500 13px/1.4 var(--sans); color: var(--ember-hi); min-height: 1.4em; margin-top: 4px; }
+.timerbar { height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.timerbar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--ember), var(--ember-hi)); transform-origin: left; transform: scaleX(0); }
+
+/* ---------- regular sections */
+section.sec { padding: 96px 0; position: relative; }
+section.sec + section.sec { border-top: 1px solid var(--line); }
+
+/* ad: poster + pitch, the pitch first in reading order */
+.ad { display: grid; gap: 32px; align-items: center; }
+.ad .pitch ul { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 14px; }
+.ad .pitch li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; }
+.ad .pitch li b { display: block; font: 600 22px/1.2 var(--serif); }
+.ad .pitch li span { color: var(--muted); font-size: 15px; }
+.ad .pitch li svg { color: var(--ember); margin-top: 3px; }
+.ad .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+.ad figure { margin: 0; position: relative; }
+.ad figure img { display: block; width: 100%; height: auto; border-radius: 6px; box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 120px rgba(242,166,90,.08); }
+.ad figure figcaption { font: 500 13px/1.4 var(--sans); color: var(--muted); margin-top: 12px; text-align: center; }
+
+/* evening timeline */
+.evening .intro-txt { max-width: 560px; }
+.timeline { list-style: none; margin: 46px 0 0; padding: 0; position: relative; display: grid; gap: 18px; }
+.timeline::before { content: ""; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 1px;
+  background: linear-gradient(180deg, var(--ember), rgba(242,166,90,.25) 70%, rgba(141,150,99,.6)); }
+.timeline li { position: relative; padding-left: 50px; }
+.timeline li::before { content: ""; position: absolute; left: 9px; top: 26px; width: 13px; height: 13px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--ember); box-shadow: 0 0 14px rgba(242,166,90,.5); }
+.timeline li.day::before { border-color: var(--moss); box-shadow: none; }
+.tcard { display: grid; gap: 8px; padding: 20px 22px; border-radius: 18px; background: var(--bg-2); border: 1px solid var(--line); }
+.tcard time { font: 600 13px/1 var(--sans); letter-spacing: .14em; color: var(--ember); font-variant-numeric: tabular-nums; }
+.day .tcard time { color: var(--moss); }
+.tcard p { color: var(--muted); font-size: 15px; }
+.tcard .tag { justify-self: start; font: 600 11px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--fg); padding: 7px 10px; border-radius: 999px; border: 1px solid var(--line); }
+
+/* materials */
+.mats { display: grid; gap: 14px; margin-top: 40px; }
+.mat { position: relative; border-radius: 20px; overflow: hidden; background: var(--bg-2); border: 1px solid var(--line); }
+.mat img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+.mat .txt { position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 20px 20px; background: linear-gradient(180deg, rgba(11,9,7,0), rgba(11,9,7,.92) 55%); }
+.mat .txt p { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
+.specs { margin-top: 18px; padding: 22px; border-radius: 20px; background: var(--bg-2); border: 1px solid var(--line); }
+.specs dl { margin: 14px 0 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+.specs dl div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }
+.specs dt { color: var(--muted); }
+.specs dd { margin: 0; font-weight: 600; }
+.specs .note { font-size: 13px; color: var(--muted); margin-top: 12px; }
+
+/* finale */
+.finale { text-align: center; padding: 120px 0 140px; }
+.finale h2 { margin-top: 18px; }
+.ember { width: 14px; height: 140px; margin: 36px auto 0; border-radius: 3px; position: relative;
+  background: linear-gradient(180deg, #FFE2B8 0%, var(--ember) 20%, #8F5B2E 34%, #C9A06B 36%, #A9824F 100%);
+  box-shadow: 0 -20px 60px 10px rgba(242,166,90,.35); transition: box-shadow 1.2s, background 1.2s; }
+.ember::before { content: ""; position: absolute; left: 50%; top: -6px; width: 60px; height: 60px; transform: translateX(-50%); border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,201,138,.55), rgba(255,201,138,0) 70%); animation: breathe 3.4s ease-in-out infinite; }
+@keyframes breathe { 50% { opacity: .55; transform: translateX(-50%) scale(.9); } }
+.finale .btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 34px; }
+.night { position: fixed; inset: 0; z-index: 50; background: #000; opacity: 0; pointer-events: none; transition: opacity 2.4s ease; display: grid; place-items: center; text-align: center; }
+.night p { font: 500 italic clamp(30px, 7vw, 52px)/1.2 var(--serif); color: #8a7b66; opacity: 0; transition: opacity 1.4s 1.8s; }
+.night button { margin-top: 26px; }
+body.goodnight .night { opacity: 1; pointer-events: auto; }
+body.goodnight .night p { opacity: 1; }
+body.goodnight .ember { background: linear-gradient(180deg, #3a2a1b 0%, #4d3622 30%, #C9A06B 36%, #A9824F 100%); box-shadow: none; }
+body.goodnight .ember::before { display: none; }
+footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 13px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: space-between; }
+
+@media (min-width: 760px) {
+  .step { align-items: center; }
+  .step.intro { align-items: flex-end; }
+  .lit-title { left: 54%; right: 4%; bottom: auto; top: 30vh; text-align: left; }
+  .step .card { padding: 28px 30px 30px; }
+  .step.right { justify-content: flex-end; }
+  .ad { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 64px; }
+  .mats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .specs { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 40px; align-items: start; padding: 30px; }
+  .specs dl { margin: 0; }
+  .timeline { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 60px; }
+  .timeline::before { left: 50%; }
+  .timeline li { padding-left: 0; }
+  .timeline li:nth-child(odd) { grid-column: 1; text-align: right; }
+  .timeline li:nth-child(even) { grid-column: 2; margin-top: 70px; }
+  .timeline li:nth-child(odd)::before { left: auto; right: -37px; }
+  .timeline li:nth-child(even)::before { left: -37px; }
+  .timeline li:nth-child(odd) .tcard .tag { justify-self: end; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .strike-demo, .ember::before { animation: none; }
+  .lit-title, .intro .hello, .night, .night p { transition: none; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#top">Лучина</a>
+  <nav aria-label="Разделы"><a class="opt" href="#try">Попробовать</a><a href="#ad">О светильнике</a><a href="#evening">Вечер</a><a class="opt" href="#materials">Материалы</a></nav>
+</header>
+
+<main id="top">
+  <div class="story">
+    <div class="stage" id="scene">
+      <canvas aria-label="3D-сцена: светильник «Лучина» на каменном столе рядом со старым светцом. Чиркните по планке вверх, чтобы зажечь."></canvas>
+      <img class="fallback" src="img/scene.jpg" alt="Светильник «Лучина» рядом со старинным светцом с горящей лучиной">
+      <div class="lit-title" aria-hidden="true">
+        <p class="kicker">Светильник-ночник</p>
+        <h1>Лучина</h1>
+        <p>Тепло огня. Без огня.</p>
+      </div>
+      <div class="scroll-cue" aria-hidden="true">Листайте</div>
+    </div>
+
+    <div class="steps">
+      <div class="step intro" data-step="dark">
+        <div class="hello">
+          <div class="strike-demo" aria-hidden="true"></div>
+          <p class="hint">Чиркните по планке, чтобы зажечь<small>проведите вверх по светильнику — или нажмите кнопку</small></p>
+          <button class="btn solid" type="button" data-act="ignite">Зажечь</button>
+        </div>
+      </div>
+
+      <div class="step wrap right" data-step="then">
+        <div class="card">
+          <p class="kicker">Тогда</p>
+          <h2>Лучина в светце</h2>
+          <p class="lead">Тонкая щепка, живой огонь — и дым под самый потолок.</p>
+          <p class="muted" style="margin-top:14px">Двести лет назад так освещали избу. Лучину зажимали в железный светец, а под неё ставили корытце с водой для угольков. Горела она недолго, коптила стены и требовала присмотра.</p>
+        </div>
+      </div>
+
+      <div class="step wrap right" data-step="now">
+        <div class="card">
+          <p class="kicker">Сейчас</p>
+          <h2>Светильник «Лучина»</h2>
+          <p class="lead">Мы сохранили её тепло. А огонь — убрали.</p>
+          <p class="muted" style="margin-top:14px">Тонкая дубовая планка светится изнутри тёплым светом. Каменная подставка держит её и заряжает. Ни дыма, ни копоти — только знакомое мерцание.</p>
+        </div>
+      </div>
+
+      <div class="step wrap" data-step="play" id="try">
+        <div class="card">
+          <p class="kicker">Попробуйте сами</p>
+          <h3 style="margin-top:12px">Всё, как с настоящей лучиной</h3>
+          <p class="muted" style="margin-top:10px">Чиркните по планке вверх — загорится. Проведите вдоль неё — свет станет ярче или тише.</p>
+          <div class="controls">
+            <div class="row">
+              <button class="btn" type="button" data-act="toggle" aria-pressed="false">Зажечь</button>
+              <button class="btn" type="button" data-act="timer" aria-pressed="false">Таймер сна</button>
+              <button class="btn" type="button" data-act="out" aria-pressed="false">Достать из камня</button>
+              <button class="btn" type="button" data-act="mic" aria-pressed="false">Подуть в микрофон</button>
+            </div>
+            <div class="timerbar" aria-hidden="true"><i></i></div>
+            <label class="range">Яркость <input type="range" min="15" max="100" value="85" data-act="bright"></label>
+            <p class="status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="sec" id="ad" aria-labelledby="ad-h">
+    <div class="wrap ad">
+      <div class="pitch">
+        <p class="kicker">Новый светильник-ночник</p>
+        <h2 id="ad-h">Тепло огня.<br>Без огня.</h2>
+        <p class="lead">Светит, как лучина. Догорает, как лучина. Гаснет, если задуть. Только без дыма, копоти и огня.</p>
+        <ul>
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="8" y="2.5" width="5" height="19" rx="1"/><path d="M8.5 3.5h4v5h-4z" fill="currentColor"/><path d="M18 8v10m-3-3 3 3 3-3"/></svg><div><b>Догорает, как лучина</b><span>Таймер сна: свет медленно опускается по планке и гаснет сам.</span></div></li>
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M3 8h11a3 3 0 1 0-3-3M3 13h15a3 3 0 1 1-3 3M3 18h7"/></svg><div><b>Задуй — и погаснет</b><span>Датчик дыхания вместо кнопки: подул на огонёк — свет погас.</span></div></li>
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4 0 6.5-2.6 6.5-6.3 0-3.6-2.6-5.6-4-8.7-1 2.6-2.2 3.4-3.3 3.6C11.6 7.6 11 4.8 9 2c-.4 3.6-3.5 6.6-3.5 10.7C5.5 18.7 8 22 12 22z"/></svg><div><b>Живой огонь без огня</b><span>Мерцает, как пламя, но не греется и безопасен даже в детской.</span></div></li>
+        </ul>
+        <div class="cta">
+          <a class="btn solid" href="#try">Зажечь в 3D</a>
+          <a class="btn" href="#evening">Один вечер с «Лучиной»</a>
+        </div>
+      </div>
+      <figure>
+        <img src="img/poster.jpg" alt="Рекламный постер: «Лучина. Тепло огня. Без огня.» Было — лучина в светце, стало — светильник «Лучина». Функции: догорает, как лучина; задуй — и погаснет; живой огонь без огня." width="1086" height="1536" loading="lazy">
+        <figcaption>Рекламный постер</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec evening" id="evening" aria-labelledby="ev-h">
+    <div class="wrap">
+      <div class="intro-txt">
+        <p class="kicker">Как это работает</p>
+        <h2 id="ev-h">Один вечер с «Лучиной»</h2>
+        <p class="lead">От первого огонька до утра — без единой кнопки.</p>
+      </div>
+      <ol class="timeline">
+        <li><div class="tcard"><time>21:00</time><h3>Чиркнули — зажглось</h3><p>Проводите пальцем вверх по планке, как спичкой по коробку. Кончик разгорается тёплым светом.</p><span class="tag">Жест «чиркнуть»</span></div></li>
+        <li><div class="tcard"><time>22:00</time><h3>Свет для книги</h3><p>Ведёте пальцем вдоль планки: вверх — ярче, вниз — тише. Свет всегда тёплый, как от огня.</p><span class="tag">Яркость</span></div></li>
+        <li><div class="tcard"><time>23:00</time><h3>Таймер сна</h3><p>Включаете таймер на 15, 30 или 60 минут. Свет медленно опускается по планке и тускнеет.</p><span class="tag">Догорает, как лучина</span></div></li>
+        <li><div class="tcard"><time>23:30</time><h3>Догорела сама</h3><p>Вы уже спите, а «Лучина» тихо погасла. Не нужно вставать и искать выключатель.</p><span class="tag">Без кнопок</span></div></li>
+        <li><div class="tcard"><time>02:00</time><h3>Ночью — с собой</h3><p>Достаньте планку из камня — она светит и в руке, как маленький фонарик. Дорогу до кухни видно.</p><span class="tag">Можно взять с собой</span></div></li>
+        <li class="day"><div class="tcard"><time>Днём</time><h3>Заряжается в камне</h3><p>Поставьте планку обратно — кольцо вокруг прорези мягко засветится, пока идёт зарядка.</p><span class="tag">Камень-зарядка</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="materials" aria-labelledby="mat-h">
+    <div class="wrap">
+      <p class="kicker">Из чего сделана</p>
+      <h2 id="mat-h">Камень, дерево, зелень</h2>
+      <p class="lead">Природные материалы и цвета — те же, что у настоящей лучины в избе.</p>
+      <div class="mats">
+        <article class="mat"><img src="img/oak.jpg" alt="Дубовая планка с тёплым светящимся кончиком" width="640" height="800" loading="lazy"><div class="txt"><h3>Дерево</h3><p>Планка из массива дуба. Кончик сделан тоньше, поэтому свет проходит сквозь древесину и выглядит тёплым.</p></div></article>
+        <article class="mat"><img src="img/stone.jpg" alt="Подставка из серого камня, в неё вставлена дубовая планка" width="640" height="800" loading="lazy"><div class="txt"><h3>Камень</h3><p>Тяжёлая каменная подставка: светильник не опрокинется. Внутри — зарядка для планки.</p></div></article>
+        <article class="mat"><img src="img/moss.jpg" alt="Мягкий зелёный мох на тёмном каменном столе" width="640" height="795" loading="lazy"><div class="txt"><h3>Зелень</h3><p>Текстильный шнур цвета мха и спокойная природная палитра — светильник не спорит с интерьером.</p></div></article>
+      </div>
+      <div class="specs">
+        <div><p class="kicker">Коротко</p><h3 style="margin-top:12px">Характеристики</h3></div>
+        <dl>
+          <div><dt>Свет</dt><dd>Тёплый, мерцающий, как пламя</dd></div>
+          <div><dt>Управление</dt><dd>Чиркнуть, провести, задуть</dd></div>
+          <div><dt>Таймер сна</dt><dd>15, 30 или 60 минут</dd></div>
+          <div><dt>Высота</dt><dd>около 30 см</dd></div>
+          <div><dt>Материалы</dt><dd>Дуб, натуральный камень, текстиль</dd></div>
+          <div><dt>Питание</dt><dd>Аккумулятор в планке, зарядка в камне</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec finale" id="bye" aria-labelledby="bye-h">
+    <div class="wrap">
+      <p class="kicker">Спокойной ночи</p>
+      <h2 id="bye-h">Задуйте, чтобы попрощаться</h2>
+      <div class="ember" aria-hidden="true"></div>
+      <div class="btns">
+        <button class="btn solid" type="button" data-act="bye">Задуть</button>
+        <button class="btn" type="button" data-act="bye-mic">Подуть в микрофон</button>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap"><span>«Лучина» — светильник-ночник. Учебный дизайн-проект.</span><a href="#top">Наверх ↑</a></div></footer>
+<div class="night" role="dialog" aria-label="Спокойной ночи" aria-hidden="true"><div><p>Спокойной ночи</p><button class="btn" type="button" data-act="wake">Зажечь снова</button></div></div>
+
+<script type="module">
+import { mountScene } from './js/lamp3d.js';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const host = $('#scene'), status = $('.status'), timerBar = $('.timerbar i');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let scene = null;
+function onLight(st) {
+  document.documentElement.style.setProperty('--glow', Math.min(1, st.level * 1.2 + (st.fire ? .5 : 0)).toFixed(3));
+  document.body.classList.toggle('lit', st.on || document.body.classList.contains('lit-once'));
+  if (st.on) document.body.classList.add('lit-once');
+  const t = $('[data-act="toggle"]'); t.textContent = st.on ? 'Задуть' : 'Зажечь'; t.setAttribute('aria-pressed', String(st.on));
+  $('[data-act="timer"]').setAttribute('aria-pressed', String(st.timer));
+  const o = $('[data-act="out"]'); o.textContent = st.out ? 'Поставить в камень' : 'Достать из камня'; o.setAttribute('aria-pressed', String(st.out));
+  $('[data-act="mic"]').setAttribute('aria-pressed', String(st.mic));
+  timerBar.style.transform = `scaleX(${st.timer ? st.burn.toFixed(3) : 0})`;
+  const r = $('[data-act="bright"]'); if (document.activeElement !== r) r.value = Math.round(st.bright * 100);
+}
+function say(t) { status.textContent = t; }
+
+mountScene(host, { onLight }).then(v => {
+  scene = v; window.__scene = v;
+  if (!v) return;
+  // which step of the story is on screen decides the scene (the one nearest the middle of the viewport)
+  const steps = $$('.step'); let cur = null, ticking = false;
+  function apply(s) {
+    document.body.dataset.step = s;
+    if (s === 'dark') { v.setView(v.state().on ? 'now' : 'dark'); v.setFire(false); }
+    if (s === 'then') { v.setView('then'); v.setFire(true); if (v.state().on) v.blowOut(); v.takeOut(false); }
+    if (s === 'now') { v.setView('now'); v.setFire(false); v.ignite(); }
+    if (s === 'play') { v.setView('now'); v.setFire(false); }
+    if (s === 'after') { v.setFire(false); }
+  }
+  function check() {
+    ticking = false;
+    const mid = innerHeight / 2; let best = null, bd = 1e9;
+    for (const el of steps) { const r = el.getBoundingClientRect(); const d = Math.abs((r.top + r.bottom) / 2 - mid); if (d < bd) { bd = d; best = el; } }
+    const last = steps[steps.length - 1].getBoundingClientRect();
+    const s = last.bottom < innerHeight * .4 ? 'after' : best.dataset.step;
+    if (s !== cur) { cur = s; apply(s); }
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+  addEventListener('resize', check); check();
+}).catch(err => { console.error(err); host.classList.add('no-webgl'); document.body.classList.add('lit', 'lit-once'); });
+
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = b.dataset.act;
+  if (a === 'bye') return goodnight();
+  if (a === 'wake') { document.body.classList.remove('goodnight'); $('.night').setAttribute('aria-hidden', 'true'); scene && scene.ignite(); return; }
+  if (a === 'bye-mic') {
+    if (!scene || !(await scene.enableMic())) { say('Микрофон недоступен — нажмите «Задуть».'); return; }
+    b.textContent = 'Подуйте…';
+    const stop = scene.on(st => { if (!st.on) { stop(); goodnight(); } });
+    if (!scene.state().on) scene.ignite();
+    return;
+  }
+  if (!scene) return;
+  if (a === 'ignite') scene.ignite();
+  if (a === 'toggle') scene.toggle();
+  if (a === 'timer') { if (scene.state().timer) { scene.stopTimer(); say('Таймер выключен.'); } else { scene.startTimer(); say('Таймер сна: для примера свет догорит за 14 секунд, в жизни — за 15–60 минут.'); } }
+  if (a === 'out') { const o = !scene.state().out; scene.takeOut(o); say(o ? 'Планка в руке светит, как фонарик. Кольцо на камне — зарядка.' : 'Планка снова в камне.'); }
+  if (a === 'mic') {
+    const ok = await scene.enableMic();
+    say(ok ? 'Подуйте на экран, как на огонёк.' : 'Нет доступа к микрофону — можно нажать «Задуть».');
+    if (ok && !scene.state().on) scene.ignite();
+  }
+});
+$('[data-act="bright"]').addEventListener('input', (e) => { if (scene) { if (!scene.state().on) scene.ignite(); scene.setBright(e.target.value / 100); } });
+function goodnight() {
+  if (scene && scene.state().on) scene.blowOut();
+  document.body.classList.add('goodnight'); $('.night').setAttribute('aria-hidden', 'false');
+  setTimeout(() => $('.night button').focus(), reduce ? 0 : 2600);
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.body.classList.contains('goodnight')) $('[data-act="wake"]').click(); });
+</script>
+</body>
+</html>
