@@ -415,7 +415,6 @@ export async function mountScene(host, { onLight } = {}) {
   let lastEmit = 0;
   function update(dt) {
     S.t += dt;
-    micStep(dt);
     // lamp on/off and blow-out
     const goal = S.target;
     S.on += (goal - S.on) * (1 - Math.pow(goal > S.on ? .03 : .002, dt));

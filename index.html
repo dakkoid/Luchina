@@ -82,6 +82,13 @@ p { margin: 0; }
 .step .card p + p { margin-top: 10px; }
 .step .card .muted { font-size: 15px; }
 
+@media (max-width: 759px) {
+  .step:not(.intro) { min-height: 165vh; min-height: 165svh; }
+  .step .card { padding: 18px 18px 20px; }
+  .step .card h2 { font-size: 34px; }
+  .step .card .lead { font-size: 19px; margin-top: 10px; }
+  .step .card .muted { font-size: 14px; }
+}
 /* step 0: darkness */
 .step.intro { align-items: flex-end; justify-content: center; text-align: center; padding-bottom: max(9vh, 28px); }
 .intro .hello { pointer-events: none; display: grid; gap: 18px; justify-items: center; transition: opacity .8s, transform .8s; }
@@ -110,6 +117,7 @@ body.lit:not([data-step]) .scroll-cue, body.lit[data-step="dark"] .scroll-cue { 
 .controls { display: grid; gap: 10px; margin-top: 16px; }
 .controls .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .controls .btn { min-height: 46px; padding: 0 12px; font-size: 14px; }
+.btn.listening { background: linear-gradient(90deg, rgba(242,166,90,.55) calc(var(--mic, 0) * 100%), rgba(242,166,90,.1) 0); color: var(--fg); border-color: var(--ember); }
 .range { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; font: 500 13px/1 var(--sans); color: var(--muted); padding: 6px 2px 0; }
 .range input { width: 100%; accent-color: var(--ember); height: 28px; }
 .status { font: 500 13px/1.4 var(--sans); color: var(--ember-hi); min-height: 1.4em; margin-top: 4px; }
@@ -354,10 +362,30 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: 
 
 <script type="module">
 import { mountScene } from './js/lamp3d.js';
+import { createBlow } from './js/blow.js';
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const host = $('#scene'), status = $('.status'), timerBar = $('.timerbar i');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let scene = null;
+const blow = createBlow(); let micMode = null;
+blow.onLevel(l => document.documentElement.style.setProperty('--mic', l.toFixed(2)));
+blow.onBlow(() => {
+  if (micMode === 'bye') { micMode = 'play'; goodnight(); return; }
+  if (!scene) return;
+  const st = scene.state();
+  if (st.on && !st.out) { scene.blowOut(); say('Погасло. Чиркните по планке, чтобы зажечь снова.'); }
+  else if (st.fire) scene.setFire(false);
+  else if (st.on && st.out) say('Сначала поставьте планку в камень.');
+  else say('Уже темно. Чиркните по планке, чтобы зажечь.');
+});
+async function startMic(btn, mode) {
+  const p = blow.start();                       // synchronous part runs inside the tap
+  micMode = mode; btn.classList.add('listening');
+  const ok = await p;
+  if (!ok) { btn.classList.remove('listening'); micMode = null; say('Нет доступа к микрофону — разрешите его в браузере или нажмите «Задуть».'); return false; }
+  btn.setAttribute('aria-pressed', 'true');
+  return true;
+}
 function onLight(st) {
   document.documentElement.style.setProperty('--glow', Math.min(1, st.level * 1.2 + (st.fire ? .5 : 0)).toFixed(3));
   document.body.classList.toggle('lit', st.on || document.body.classList.contains('lit-once'));
@@ -365,7 +393,6 @@ function onLight(st) {
   const t = $('[data-act="toggle"]'); t.textContent = st.on ? 'Задуть' : 'Зажечь'; t.setAttribute('aria-pressed', String(st.on));
   $('[data-act="timer"]').setAttribute('aria-pressed', String(st.timer));
   const o = $('[data-act="out"]'); o.textContent = st.out ? 'Поставить в камень' : 'Достать из камня'; o.setAttribute('aria-pressed', String(st.out));
-  $('[data-act="mic"]').setAttribute('aria-pressed', String(st.mic));
   timerBar.style.transform = `scaleX(${st.timer ? st.burn.toFixed(3) : 0})`;
   const r = $('[data-act="bright"]'); if (document.activeElement !== r) r.value = Math.round(st.bright * 100);
 }
@@ -402,10 +429,8 @@ document.addEventListener('click', async (e) => {
   if (a === 'bye') return goodnight();
   if (a === 'wake') { document.body.classList.remove('goodnight'); $('.night').setAttribute('aria-hidden', 'true'); scene && scene.ignite(); return; }
   if (a === 'bye-mic') {
-    if (!scene || !(await scene.enableMic())) { say('Микрофон недоступен — нажмите «Задуть».'); return; }
-    b.textContent = 'Подуйте…';
-    const stop = scene.on(st => { if (!st.on) { stop(); goodnight(); } });
-    if (!scene.state().on) scene.ignite();
+    const ok = await startMic(b, 'bye');
+    if (ok) b.textContent = 'Подуйте на экран…';
     return;
   }
   if (!scene) return;
@@ -414,9 +439,8 @@ document.addEventListener('click', async (e) => {
   if (a === 'timer') { if (scene.state().timer) { scene.stopTimer(); say('Таймер выключен.'); } else { scene.startTimer(); say('Таймер сна: для примера свет догорит за 14 секунд, в жизни — за 15–60 минут.'); } }
   if (a === 'out') { const o = !scene.state().out; scene.takeOut(o); say(o ? 'Планка в руке светит, как фонарик. Кольцо на камне — зарядка.' : 'Планка снова в камне.'); }
   if (a === 'mic') {
-    const ok = await scene.enableMic();
-    say(ok ? 'Подуйте на экран, как на огонёк.' : 'Нет доступа к микрофону — можно нажать «Задуть».');
-    if (ok && !scene.state().on) scene.ignite();
+    const ok = await startMic(b, 'play');
+    if (ok) { b.textContent = 'Микрофон включён'; if (!scene.state().on) scene.ignite(); say('Подуйте на экран, как на огонёк, — светильник погаснет.'); }
   }
 });
 $('[data-act="bright"]').addEventListener('input', (e) => { if (scene) { if (!scene.state().on) scene.ignite(); scene.setBright(e.target.value / 100); } });
